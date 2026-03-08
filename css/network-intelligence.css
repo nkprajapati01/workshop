@@ -1,0 +1,418 @@
+/* =====================================================
+   NETWORK INTELLIGENCE PAGE STYLES
+   All classes prefixed with ni- to avoid conflicts
+   ===================================================== */
+
+.ni-page {
+    max-width: 100% !important;
+    width: 100%;
+}
+
+/* --- Summary Stats Grid --- */
+.ni-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.ni-stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 1.25rem 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.ni-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ni-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+    border-color: rgba(99, 102, 241, 0.25);
+}
+
+.ni-stat-card:hover::before {
+    opacity: 1;
+}
+
+.ni-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(99, 102, 241, 0.15);
+}
+
+.ni-stat-icon svg {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+}
+
+.ni-stat-icon.green {
+    background: rgba(16, 185, 129, 0.15);
+}
+
+.ni-stat-icon.green svg {
+    color: #10b981;
+}
+
+.ni-stat-icon.orange {
+    background: rgba(245, 158, 11, 0.15);
+}
+
+.ni-stat-icon.orange svg {
+    color: #f59e0b;
+}
+
+.ni-stat-icon.red {
+    background: rgba(239, 68, 68, 0.15);
+}
+
+.ni-stat-icon.red svg {
+    color: #ef4444;
+}
+
+.ni-stat-icon.blue {
+    background: rgba(59, 130, 246, 0.15);
+}
+
+.ni-stat-icon.blue svg {
+    color: #3b82f6;
+}
+
+.ni-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.ni-stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+}
+
+/* --- Topology Section --- */
+.ni-topology-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.ni-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.ni-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.ni-topology-container {
+    width: 100%;
+    height: 500px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+/* --- Geolocation Map --- */
+.ni-geo-summary {
+    margin: 0.75rem 0 1rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--text-muted);
+    font-size: 0.88rem;
+}
+
+.ni-geo-map {
+    width: 100%;
+    height: 460px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.ni-geo-popup {
+    font-size: 0.82rem;
+    line-height: 1.4;
+}
+
+.ni-geo-popup strong {
+    color: #111827;
+}
+
+/* Animated neon traffic flow lines on map */
+.leaflet-overlay-pane path.ni-neon-flow {
+    stroke-dasharray: 10 14;
+    animation: ni-flow-dash 1.4s linear infinite;
+    filter: drop-shadow(0 0 2px rgba(56, 189, 248, 0.95)) drop-shadow(0 0 8px rgba(34, 211, 238, 0.85));
+}
+
+.leaflet-overlay-pane path.ni-neon-top-flow {
+    stroke-dasharray: 14 10;
+    animation-duration: 1.05s;
+    filter: drop-shadow(0 0 3px rgba(251, 113, 133, 1)) drop-shadow(0 0 10px rgba(251, 113, 133, 0.95));
+}
+
+@keyframes ni-flow-dash {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: -48;
+    }
+}
+
+/* --- ARP Analysis --- */
+.ni-arp-alerts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.ni-alert-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1.25rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.ni-alert-banner svg {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+}
+
+.ni-alert-banner.alert-critical {
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+}
+
+.ni-alert-banner.alert-critical svg {
+    color: #ef4444;
+}
+
+.ni-alert-banner.alert-warning {
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: #fcd34d;
+}
+
+.ni-alert-banner.alert-warning svg {
+    color: #f59e0b;
+}
+
+.ni-alert-banner.alert-info {
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: #93c5fd;
+}
+
+.ni-alert-banner.alert-info svg {
+    color: #3b82f6;
+}
+
+.ni-alert-banner.alert-success {
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #6ee7b7;
+}
+
+.ni-alert-banner.alert-success svg {
+    color: #10b981;
+}
+
+.ni-arp-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.ni-arp-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 1rem 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.ni-arp-stat .ni-arp-stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.ni-arp-stat .ni-arp-stat-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+.ni-chart-wrapper {
+    margin-top: 1rem;
+}
+
+.ni-chart-wrapper h4 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+/* --- Protocol & Port Grid --- */
+.ni-protocol-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.ni-protocol-chart-wrap h4,
+.ni-port-table-wrap h4 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.ni-port-table-wrap .data-table {
+    font-size: 0.88rem;
+}
+
+/* --- Burst Detection --- */
+.ni-burst-alerts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.ni-burst-stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.ni-burst-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 1rem 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.ni-burst-stat .ni-burst-stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.ni-burst-stat .ni-burst-stat-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .ni-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ni-arp-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ni-protocol-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ni-topology-container {
+        height: 400px;
+    }
+
+    .ni-geo-map {
+        height: 360px;
+    }
+
+    .ni-burst-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .ni-stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .ni-arp-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .ni-topology-container {
+        height: 300px;
+    }
+
+    .ni-geo-map {
+        height: 300px;
+    }
+
+    .ni-burst-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+}

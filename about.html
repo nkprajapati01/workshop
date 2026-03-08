@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - IDS Dashboard</title>
+    <meta name="description" content="About the IDS Intrusion Detection System dashboard.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/about.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <header class="navbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" title="Main Menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <a href="index.html" class="logo" title="IDS">
+            <img src="assets/icon.jpeg" alt="IDS Logo" class="logo-icon">
+        </a>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="index.html"><i data-lucide="star"></i><span class="nav-text">Features</span></a></li>
+                <li><a href="about.html" class="active"><i data-lucide="info"></i><span
+                            class="nav-text">About</span></a></li>
+                <li><a href="contact.html"><i data-lucide="mail"></i><span class="nav-text">Contact</span></a></li>
+                <li><a href="cyware.html"><i data-lucide="shield"></i><span class="nav-text">Cyware</span></a></li>
+                <li><a href="threat-intelligence.html"><i data-lucide="radar"></i><span class="nav-text">Threat
+                            Intelligence</span></a></li>
+                <li><a href="network-intelligence.html"><i data-lucide="network"></i><span
+                            class="nav-text">Network Intelligence</span></a></li>
+                <li><a href="log-file-analyzer.html"><i data-lucide="file-search"></i><span class="nav-text">Log
+                            Analyzer</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <main class="dashboard-content">
+        <div class="page-content about-page">
+            <section class="about-hero reveal">
+                <div class="hero-badge">
+                    <i data-lucide="shield-check"></i>
+                    <span>Enterprise-Grade Security</span>
+                </div>
+                <h1>Intrusion Detection System</h1>
+                <p>
+                    A modern IDS platform built for real-time network visibility, threat correlation, vulnerability
+                    intelligence,
+                    and fast incident response across dynamic enterprise environments.
+                </p>
+            </section>
+
+            <section class="stats-grid reveal">
+                <article class="stat-card">
+                    <div class="stat-icon"><i data-lucide="zap"></i></div>
+                    <h3>&lt;50ms</h3>
+                    <p>Detection Latency</p>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-icon"><i data-lucide="database"></i></div>
+                    <h3>200K+</h3>
+                    <p>Signatures Tracked</p>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-icon"><i data-lucide="globe"></i></div>
+                    <h3>24/7</h3>
+                    <p>Continuous Monitoring</p>
+                </article>
+            </section>
+
+            <section class="section-card reveal">
+                <div class="section-head">
+                    <div class="section-icon"><i data-lucide="scan-eye"></i></div>
+                    <div>
+                        <h2>What is IDS?</h2>
+                        <p class="tagline">Network Intrusion Detection & Prevention</p>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <p>
+                        An Intrusion Detection System (IDS) monitors network and host activity to identify suspicious
+                        behavior,
+                        malicious payloads, and policy violations. It provides visibility beyond traditional perimeter
+                        filtering.
+                    </p>
+                    <p>
+                        This IDS dashboard combines signature intelligence, anomaly signals, and contextual risk
+                        metadata to help
+                        analysts detect threats quickly and prioritize remediation with clarity.
+                    </p>
+                    <div class="highlight-box">
+                        <i data-lucide="lightbulb"></i>
+                        <p><strong>Did you know?</strong> Many breaches remain undetected for weeks. Strong detection
+                            telemetry can dramatically reduce dwell time.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="dual-grid reveal">
+                <article class="dual-card mission">
+                    <div class="dual-icon"><i data-lucide="target"></i></div>
+                    <h3>Mission</h3>
+                    <p>Deliver clear, actionable security intelligence so teams can detect, prioritize, and respond to
+                        cyber threats with speed and confidence.</p>
+                </article>
+                <article class="dual-card vision">
+                    <div class="dual-icon"><i data-lucide="eye"></i></div>
+                    <h3>Vision</h3>
+                    <p>Build a proactive security ecosystem where continuous monitoring and automated insights minimize
+                        risk before impact.</p>
+                </article>
+            </section>
+
+            <section class="section-card reveal">
+                <div class="section-head">
+                    <div class="section-icon"><i data-lucide="layers"></i></div>
+                    <div>
+                        <h2>Core Capabilities</h2>
+                    </div>
+                </div>
+                <div class="cap-grid">
+                    <article class="cap-card">
+                        <div class="cap-icon" style="--cap:#6366f1"><i data-lucide="wifi"></i></div>
+                        <h4>Seamless Network Monitoring</h4>
+                        <p>Continuous packet and flow visibility across infrastructure.</p>
+                    </article>
+                    <article class="cap-card">
+                        <div class="cap-icon" style="--cap:#a855f7"><i data-lucide="brain"></i></div>
+                        <h4>AI-Powered Threat Detection</h4>
+                        <p>Behavioral analytics for known and unknown attack patterns.</p>
+                    </article>
+                    <article class="cap-card">
+                        <div class="cap-icon" style="--cap:#ec4899"><i data-lucide="file-text"></i></div>
+                        <h4>Comprehensive Logging</h4>
+                        <p>Detailed event trails for auditing, forensics, and compliance.</p>
+                    </article>
+                    <article class="cap-card">
+                        <div class="cap-icon" style="--cap:#10b981"><i data-lucide="sliders-horizontal"></i></div>
+                        <h4>Customizable Alert Thresholds</h4>
+                        <p>Flexible tuning to reduce noise and improve relevance.</p>
+                    </article>
+                    <article class="cap-card">
+                        <div class="cap-icon" style="--cap:#f59e0b"><i data-lucide="plug"></i></div>
+                        <h4>Automated Incident Triage</h4>
+                        <p>Prioritize alerts by severity, impact, and threat context.</p>
+                    </article>
+                    <article class="cap-card">
+                        <div class="cap-icon" style="--cap:#3b82f6"><i data-lucide="bar-chart-3"></i></div>
+                        <h4>Visual Dashboards & Reports</h4>
+                        <p>Readable insights for operations, analysts, and leadership.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section-card reveal">
+                <div class="section-head">
+                    <div class="section-icon"><i data-lucide="git-branch"></i></div>
+                    <div>
+                        <h2>How It Works</h2>
+                    </div>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item"><span>1</span>
+                        <div>
+                            <h4>Data Collection</h4>
+                            <p>Sensors gather packet, endpoint, and activity telemetry.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item"><span>2</span>
+                        <div>
+                            <h4>Analysis & Correlation</h4>
+                            <p>Rules and models detect anomalies and map indicators.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item"><span>3</span>
+                        <div>
+                            <h4>Alert Generation</h4>
+                            <p>Actionable alerts are enriched with threat context and severity.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item"><span>4</span>
+                        <div>
+                            <h4>Response & Remediation</h4>
+                            <p>Teams contain threats and close exposure windows quickly.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-card reveal">
+                <div class="section-head">
+                    <div class="section-icon"><i data-lucide="search"></i></div>
+                    <div>
+                        <h2>Detection Methods</h2>
+                    </div>
+                </div>
+                <div class="methods-grid">
+                    <article class="method-card">
+                        <h4><i data-lucide="fingerprint"></i> Signature-Based Detection</h4>
+                        <p>Matches traffic patterns against known attack signatures.</p><span class="method-tag">Best
+                            for: Known Threats</span>
+                    </article>
+                    <article class="method-card">
+                        <h4><i data-lucide="trending-up"></i> Anomaly-Based Detection</h4>
+                        <p>Flags deviations from normal behavior to detect unknown threats.</p><span
+                            class="method-tag">Best for: Zero-Day Exploits</span>
+                    </article>
+                    <article class="method-card">
+                        <h4><i data-lucide="network"></i> Protocol Analysis</h4>
+                        <p>Inspects protocol-layer activity for suspicious communication.</p><span
+                            class="method-tag">Best for: Advanced Threats</span>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section-card reveal">
+                <div class="section-head">
+                    <div class="section-icon"><i data-lucide="help-circle"></i></div>
+                    <div>
+                        <h2>FAQ</h2>
+                    </div>
+                </div>
+                <div class="faq-list">
+                    <details>
+                        <summary>What is the difference between IDS and IPS?</summary>
+                        <p>IDS detects and alerts; IPS detects and can block traffic inline.</p>
+                    </details>
+                    <details>
+                        <summary>How does IDS reduce false positives?</summary>
+                        <p>Through tuning, correlation, behavioral baselining, and contextual scoring.</p>
+                    </details>
+                    <details>
+                        <summary>Can it integrate with my security stack?</summary>
+                        <p>Yes, via REST APIs, webhook events, and common SIEM/SOAR workflows.</p>
+                    </details>
+                    <details>
+                        <summary>What threats can it detect?</summary>
+                        <p>Scanning, exploitation attempts, malware patterns, lateral movement, and abnormal network
+                            behavior.</p>
+                    </details>
+                    <details>
+                        <summary>Is this suitable for small businesses?</summary>
+                        <p>Yes. It scales from small environments to enterprise deployments.</p>
+                    </details>
+                </div>
+            </section>
+
+            <section class="cta-section reveal">
+                <div class="cta-glow"></div>
+                <h2>Ready to Secure Your Network?</h2>
+                <p>Move from raw telemetry to actionable threat intelligence with a dashboard designed for modern
+                    defense teams.</p>
+                <div class="cta-actions">
+                    <a href="index.html" class="btn-primary"><i data-lucide="star"></i><span>Features</span></a>
+                    <a href="contact.html" class="btn-secondary"><i data-lucide="mail"></i><span>Get in Touch</span></a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="script/lucide-init.js"></script>
+    <script type="module" src="script/about.js"></script>
+</body>
+
+</html>
+
+
+

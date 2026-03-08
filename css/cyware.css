@@ -1,0 +1,239 @@
+.cy-page h1 {
+    margin-bottom: 1rem;
+}
+
+.cy-hero-card {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    background:
+        radial-gradient(circle at top right, rgba(16, 185, 129, 0.18), transparent 46%),
+        radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.2), transparent 52%),
+        rgba(255, 255, 255, 0.03);
+}
+
+.cy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.85rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(15, 23, 42, 0.55);
+    font-size: 0.8rem;
+    color: #c7d2fe;
+}
+
+.cy-badge svg {
+    width: 16px;
+    height: 16px;
+}
+
+.cy-quote {
+    margin: 0 0 0.75rem;
+    font-size: 1.1rem;
+    line-height: 1.55;
+    color: #e2e8f0;
+    border-left: 3px solid rgba(99, 102, 241, 0.65);
+    padding-left: 0.8rem;
+}
+
+.cy-essential-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 0.35rem;
+}
+
+.cy-essential-msg {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #cbd5e1;
+}
+
+.cy-hint {
+    margin-top: 0.9rem;
+    font-size: 0.9rem;
+}
+
+.cy-hint code {
+    color: #10b981;
+}
+
+.cy-chat-card h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+}
+
+.cy-chat-card h2 svg {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+}
+
+.cy-chat-card {
+    background:
+        linear-gradient(180deg, rgba(15, 23, 42, 0.55), rgba(2, 6, 23, 0.65)),
+        rgba(255, 255, 255, 0.02);
+}
+
+.cy-chat-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.7rem;
+    align-items: end;
+    margin-top: 0.9rem;
+    padding: 0.8rem;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    background: rgba(2, 6, 23, 0.78);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+}
+
+.cy-chat-form textarea {
+    width: 100%;
+    resize: none;
+    min-height: 64px;
+    max-height: 180px;
+    padding: 0.75rem 0.9rem;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    background: rgba(15, 23, 42, 0.68);
+    color: var(--text-main);
+    font: inherit;
+    line-height: 1.45;
+}
+
+.cy-chat-form textarea:focus {
+    outline: none;
+    border-color: rgba(96, 165, 250, 0.92);
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.18);
+}
+
+#sendBtn {
+    align-self: stretch;
+    min-width: 126px;
+    justify-content: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 12px;
+}
+
+.cy-chat-history {
+    min-height: 360px;
+    max-height: 54vh;
+    overflow-y: auto;
+    display: block;
+    padding: 1.15rem 1.2rem;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 16px;
+    background:
+        linear-gradient(180deg, rgba(15, 23, 42, 0.64), rgba(2, 6, 23, 0.72)),
+        rgba(0, 0, 0, 0.2);
+}
+
+.cy-empty {
+    color: var(--text-muted);
+    text-align: center;
+    padding: 2rem 0.5rem;
+}
+
+.cy-message {
+    display: block;
+    width: max-content;
+    padding: 0.8rem 0.95rem;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    white-space: pre-wrap;
+    line-height: 1.52;
+    box-shadow: 0 6px 16px rgba(2, 6, 23, 0.2);
+    margin-bottom: 0.8rem;
+}
+
+.cy-message.user {
+    width: clamp(220px, 36%, 430px);
+    margin-left: auto;
+    margin-right: 0;
+    background: linear-gradient(145deg, rgba(37, 99, 235, 0.58), rgba(59, 130, 246, 0.5));
+    border-color: rgba(96, 165, 250, 0.62);
+    color: #e2e8f0;
+    border-bottom-right-radius: 6px;
+}
+
+.cy-message.assistant {
+    width: clamp(320px, 68%, 900px);
+    margin-left: 0;
+    margin-right: auto;
+    background: rgba(15, 23, 42, 0.86);
+    border-color: rgba(148, 163, 184, 0.3);
+    color: var(--text-main);
+    border-bottom-left-radius: 6px;
+}
+
+.cy-message-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    opacity: 0.72;
+    margin-bottom: 0.32rem;
+}
+
+.cy-msg-content p {
+    margin: 0 0 0.45rem;
+}
+
+.cy-msg-content p:last-child {
+    margin-bottom: 0;
+}
+
+.cy-msg-content .cy-line-title {
+    font-weight: 600;
+    color: #dbeafe;
+}
+
+.cy-msg-content .cy-md-heading {
+    font-weight: 700;
+    color: #bfdbfe;
+    letter-spacing: 0.01em;
+}
+
+.cy-msg-content code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.9em;
+    padding: 0.08rem 0.32rem;
+    border-radius: 6px;
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+.cy-msg-content ul,
+.cy-msg-content ol {
+    margin: 0.3rem 0 0.5rem 1.05rem;
+    padding: 0;
+}
+
+.cy-msg-content li {
+    margin: 0.2rem 0;
+}
+
+@media (max-width: 740px) {
+    .cy-chat-form {
+        grid-template-columns: 1fr;
+    }
+
+    #sendBtn {
+        min-height: 42px;
+    }
+
+    .cy-message {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyware AI - IDS Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/cyware.css?v=20260307-2">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <header class="navbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" title="Main Menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <a href="index.html" class="logo" title="IDS">
+            <img src="assets/icon.jpeg" alt="IDS Logo" class="logo-icon">
+        </a>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="index.html"><i data-lucide="star"></i><span class="nav-text">Features</span></a></li>
+                <li><a href="about.html"><i data-lucide="info"></i><span class="nav-text">About</span></a></li>
+                <li><a href="contact.html"><i data-lucide="mail"></i><span class="nav-text">Contact</span></a></li>
+                <li><a href="cyware.html" class="active"><i data-lucide="shield"></i><span
+                            class="nav-text">Cyware</span></a></li>
+                <li><a href="threat-intelligence.html"><i data-lucide="radar"></i><span class="nav-text">Threat
+                            Intelligence</span></a></li>
+                <li><a href="network-intelligence.html"><i data-lucide="network"></i><span class="nav-text">Network
+                            Intelligence</span></a></li>
+                <li><a href="log-file-analyzer.html"><i data-lucide="file-search"></i><span class="nav-text">Log
+                            Analyzer</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <main class="dashboard-content">
+        <div class="page-content cy-page">
+            <h1>Cyware AI</h1>
+
+            <section class="content-card cy-hero-card">
+                <p class="cy-badge"><i data-lucide="cpu"></i> RAG Security Assistant</p>
+                <blockquote id="cyQuote" class="cy-quote"></blockquote>
+                <p class="cy-essential-label">Cyber Essential Message</p>
+                <p id="cyEssentialMessage" class="cy-essential-msg"></p>
+            </section>
+
+            <section class="content-card cy-chat-card">
+                <h2><i data-lucide="bot"></i> Enter Your Prompt</h2>
+                <div id="chatHistory" class="cy-chat-history">
+                    <div class="cy-empty">No previous chats in this session. Start by sending your first prompt.</div>
+                </div>
+                <form id="chatForm" class="cy-chat-form">
+                    <textarea id="chatInput" rows="4"
+                        placeholder="Ask Cyware AI about alerts, incidents, detections, and next response actions..."
+                        required></textarea>
+                    <button id="sendBtn" type="submit" class="submit-btn">
+                        <i data-lucide="send"></i>
+                        <span>Send Chat</span>
+                    </button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <script src="script/lucide-init.js"></script>
+    <script type="module" src="script/cyware.js"></script>
+</body>
+
+</html>

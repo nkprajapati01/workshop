@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - IDS Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/contact.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <!-- Hamburger Menu Button (Left) -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" title="Main Menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <!-- Logo (Center/Right of hamburger) -->
+        <a href="index.html" class="logo" title="IDS">
+            <img src="assets/icon.jpeg" alt="IDS Logo" class="logo-icon">
+        </a>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="index.html"><i data-lucide="star"></i><span class="nav-text">Features</span></a></li>
+                <li><a href="about.html"><i data-lucide="info"></i><span class="nav-text">About</span></a></li>
+                <li><a href="contact.html" class="active"><i data-lucide="mail"></i><span
+                            class="nav-text">Contact</span></a></li>
+                <li><a href="cyware.html"><i data-lucide="shield"></i><span class="nav-text">Cyware</span></a></li>
+                <li><a href="threat-intelligence.html"><i data-lucide="radar"></i><span class="nav-text">Threat
+                            Intelligence</span></a></li>
+                <li><a href="network-intelligence.html"><i data-lucide="network"></i><span
+                            class="nav-text">Network Intelligence</span></a></li>
+                <li><a href="log-file-analyzer.html"><i data-lucide="file-search"></i><span class="nav-text">Log
+                            Analyzer</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-content">
+        <div class="page-content">
+            <h1>Contact Us</h1>
+
+            <div class="content-card">
+                <h2>Get in Touch</h2>
+                <p>Have questions or need support? We're here to help. Reach out to us through any of the following
+                    channels.</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="content-card contact-item">
+                    <i data-lucide="mail" class="contact-icon"></i>
+                    <h3>Email</h3>
+                    <p>support@ids-security.com</p>
+                </div>
+
+                <div class="content-card contact-item">
+                    <i data-lucide="phone" class="contact-icon"></i>
+                    <h3>Phone</h3>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+
+                <div class="content-card contact-item">
+                    <i data-lucide="map-pin" class="contact-icon"></i>
+                    <h3>Location</h3>
+                    <p>VIT Bhopal Block 2 (Headquarters)</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h2>Send a Message</h2>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Your message..."
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="script/lucide-init.js"></script>
+    <script type="module" src="script/contact.js"></script>
+</body>
+
+</html>
+
+
+

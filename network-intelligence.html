@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Intelligence - IDS Dashboard</title>
+    <meta name="description"
+        content="Network Intelligence module - real-time topology mapping, ARP analysis, and port/protocol distribution for the IDS Dashboard.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/network-intelligence.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- vis-network for topology graph -->
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <!-- Leaflet for world map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" title="Main Menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <a href="index.html" class="logo" title="IDS">
+            <img src="assets/icon.jpeg" alt="IDS Logo" class="logo-icon">
+        </a>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="index.html"><i data-lucide="star"></i><span class="nav-text">Features</span></a></li>
+                <li><a href="about.html"><i data-lucide="info"></i><span class="nav-text">About</span></a></li>
+                <li><a href="contact.html"><i data-lucide="mail"></i><span class="nav-text">Contact</span></a></li>
+                <li><a href="cyware.html"><i data-lucide="shield"></i><span class="nav-text">Cyware</span></a></li>
+                <li><a href="threat-intelligence.html"><i data-lucide="radar"></i><span class="nav-text">Threat
+                            Intelligence</span></a></li>
+                <li><a href="network-intelligence.html" class="active"><i data-lucide="network"></i><span
+                            class="nav-text">Network Intelligence</span></a></li>
+                <li><a href="log-file-analyzer.html"><i data-lucide="file-search"></i><span class="nav-text">Log
+                            Analyzer</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-content">
+        <div class="page-content ni-page">
+            <h1>Network Intelligence</h1>
+
+            <!-- Step 1: Download & Run Script -->
+            <div class="content-card step-card">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h2><i data-lucide="download"></i> Download Capture Script</h2>
+                    <p>Download the network packet capture script to collect live traffic data from your network.</p>
+                    <a href="scripts/network_monitor.py" download class="download-btn">
+                        <i data-lucide="file-code"></i>
+                        <span>Download Script (Python)</span>
+                    </a>
+                    <p class="hint" style="margin-top: 1rem;"><strong>Note:</strong> Requires
+                        <code>scapy</code> library. Run with admin/root privileges for packet capture access.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 2: Upload JSON -->
+            <div class="content-card step-card">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h2><i data-lucide="upload"></i> Upload Capture Data</h2>
+                    <p>Upload the generated <code>network_capture.json</code> file to analyze your network traffic.</p>
+
+                    <div class="upload-area" id="niUploadArea">
+                        <input type="file" id="niFileInput" accept=".json" hidden>
+                        <i data-lucide="file-json" class="upload-icon"></i>
+                        <p>Drag & drop your JSON file here or <span class="browse-link">browse</span></p>
+                    </div>
+
+                    <div class="file-info hidden" id="niFileInfo">
+                        <i data-lucide="file-check"></i>
+                        <span id="niFileName">No file selected</span>
+                        <button class="remove-file" id="niRemoveFile" title="Remove file">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+
+                    <button class="submit-btn analyze-btn hidden" id="niAnalyzeBtn">
+                        <i data-lucide="search"></i>
+                        Analyze Network Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Area -->
+            <div id="niResultsArea" class="hidden">
+
+                <!-- Summary Stats -->
+                <div class="content-card" id="niStatsCard">
+                    <h2><i data-lucide="bar-chart-3"></i> Traffic Summary</h2>
+                    <div class="ni-stats-grid" id="niStatsGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Network Topology -->
+                <div class="content-card" id="niTopologyCard">
+                    <h2><i data-lucide="git-branch"></i> Network Topology</h2>
+                    <div class="ni-topology-legend">
+                        <span class="ni-legend-item"><span class="ni-legend-dot"
+                                style="background:#10b981;"></span>Internal IP</span>
+                        <span class="ni-legend-item"><span class="ni-legend-dot"
+                                style="background:#3b82f6;"></span>External IP</span>
+                        <span class="ni-legend-item"><span class="ni-legend-dot" style="background:#ef4444;"></span>Top
+                            Talker</span>
+                        <span class="ni-legend-item"><span class="ni-legend-dot" style="background:#f59e0b;"></span>High
+                            Traffic</span>
+                    </div>
+                    <div class="ni-topology-container" id="niTopologyGraph"></div>
+                </div>
+
+                <!-- IP Geolocation Map -->
+                <div class="content-card" id="niGeoCard">
+                    <h2><i data-lucide="map-pinned"></i> IP Geolocation Map</h2>
+                    <p class="hint">External IPs are geolocated. Internal IPs are plotted near your local network region (approximate). Top talker is highlighted in red.</p>
+                    <div class="ni-geo-summary" id="niGeoSummary"></div>
+                    <div class="ni-geo-map" id="niGeoMap"></div>
+                </div>
+
+                <!-- ARP Deep Analysis -->
+                <div class="content-card" id="niArpCard">
+                    <h2><i data-lucide="shield-alert"></i> ARP Deep Analysis</h2>
+                    <div class="ni-arp-alerts" id="niArpAlerts">
+                        <!-- Alert banners populated by JS -->
+                    </div>
+                    <div class="ni-arp-stats" id="niArpStats">
+                        <!-- ARP stat cards populated by JS -->
+                    </div>
+                    <div class="ni-chart-wrapper">
+                        <h4>ARP Activity Timeline</h4>
+                        <div class="chart-container">
+                            <canvas id="niArpChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Port & Protocol Distribution -->
+                <div class="content-card" id="niPortCard">
+                    <h2><i data-lucide="pie-chart"></i> Port & Protocol Distribution</h2>
+                    <div class="ni-protocol-grid">
+                        <div class="ni-protocol-chart-wrap">
+                            <h4>Protocol Breakdown</h4>
+                            <div class="chart-container">
+                                <canvas id="niProtocolChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="ni-port-table-wrap">
+                            <h4>Top 10 Destination Ports</h4>
+                            <div class="results-table-container">
+                                <table class="data-table" id="niPortTable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Port</th>
+                                            <th>Packets</th>
+                                            <th>Percentage</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="niPortTableBody">
+                                        <!-- Populated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time-Series Traffic Burst Detection -->
+                <div class="content-card" id="niBurstCard">
+                    <h2><i data-lucide="zap"></i> Time-Series Traffic Burst Detection</h2>
+                    <div class="ni-burst-alerts" id="niBurstAlerts">
+                        <!-- Burst threat alerts populated by JS -->
+                    </div>
+                    <div class="ni-burst-stats" id="niBurstStats">
+                        <!-- Burst stat cards populated by JS -->
+                    </div>
+                    <div class="ni-protocol-grid">
+                        <div class="ni-chart-wrapper">
+                            <h4>Packets Per Second</h4>
+                            <div class="chart-container">
+                                <canvas id="niBurstChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="ni-chart-wrapper">
+                            <h4>Traffic Asymmetry (Src vs Dst)</h4>
+                            <div class="chart-container">
+                                <canvas id="niAsymmetryChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="script/lucide-init.js"></script>
+    <script type="module" src="script/network-intelligence.js"></script>
+</body>
+
+</html>
+
+

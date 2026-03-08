@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log File Analyzer - IDS Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/threat-intelligence.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            background-attachment: fixed;
+        }
+
+        .dashboard-content {
+            background: transparent;
+            border-radius: 0;
+        }
+
+        .result-section {
+            margin-top: 1.7rem;
+            padding-top: 0.2rem;
+        }
+
+        .result-section:first-child {
+            margin-top: 0.8rem;
+        }
+
+        .result-meta {
+            margin: 0.4rem 0 0.9rem;
+            font-size: 0.92rem;
+            opacity: 0.9;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.7rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .kpi-row-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.7rem;
+            margin: 0.75rem 0 0.95rem;
+        }
+
+        .summary-item {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 0.7rem 0.8rem;
+            background: rgba(30, 58, 112, 0.95);
+            box-shadow: 0 8px 20px rgba(7, 12, 30, 0.22);
+        }
+
+        .summary-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .summary-value {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-top: 0.2rem;
+        }
+
+        .assessment-list {
+            display: grid;
+            gap: 0.9rem;
+        }
+
+        .category-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.75rem;
+            margin: 0.75rem 0 1rem;
+        }
+
+        .category-summary-card {
+            border-radius: 10px;
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(28, 54, 105, 0.95);
+            box-shadow: 0 8px 20px rgba(7, 12, 30, 0.22);
+        }
+
+        .category-summary-card h4 {
+            margin: 0 0 0.45rem;
+            font-size: 0.98rem;
+        }
+
+        .category-kpis {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .kpi-pill {
+            border-radius: 999px;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.78rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .kpi-pill.error {
+            background: rgba(255, 99, 132, 0.2);
+        }
+
+        .kpi-pill.warn {
+            background: rgba(255, 206, 86, 0.2);
+        }
+
+        .kpi-pill.info {
+            background: rgba(54, 162, 235, 0.2);
+        }
+
+        .chart-grid {
+            display: grid;
+            gap: 0.8rem;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            margin: 0.9rem 0;
+        }
+
+        .chart-card {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: 0 10px 24px rgba(7, 12, 30, 0.24);
+        }
+
+        .chart-card h4 {
+            margin: 0 0 0.55rem;
+        }
+
+        .chart-card-large {
+            min-height: 430px;
+        }
+
+        .chart-card-large canvas {
+            height: 340px !important;
+            width: 100% !important;
+        }
+
+        .log-filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 0.6rem 0 0.9rem;
+        }
+
+        .log-filter-btn {
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.05);
+            color: #e7eeff;
+            border-radius: 999px;
+            padding: 0.3rem 0.65rem;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .log-filter-btn.active {
+            background: rgba(76, 155, 255, 0.28);
+            border-color: rgba(76, 155, 255, 0.75);
+        }
+
+        .assessment-card {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 0.9rem;
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: 0 12px 26px rgba(7, 12, 30, 0.26);
+        }
+
+        .assessment-kv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 0.45rem;
+            margin: 0.55rem 0 0.6rem;
+        }
+
+        .assessment-kv {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            padding: 0.45rem 0.55rem;
+            background: rgba(33, 63, 120, 0.95);
+        }
+
+        .assessment-kv-label {
+            font-size: 0.76rem;
+            opacity: 0.8;
+        }
+
+        .assessment-kv-value {
+            margin-top: 0.15rem;
+            font-weight: 600;
+        }
+
+        .signal-list {
+            list-style: none;
+            margin: 0.35rem 0 0.55rem;
+            padding: 0;
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        .signal-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            line-height: 1.35;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.35rem 0.5rem;
+            background: rgba(27, 49, 94, 0.9);
+        }
+
+        .signal-list i {
+            width: 14px;
+            height: 14px;
+            opacity: 0.95;
+            flex: 0 0 14px;
+        }
+
+        .advanced-filter-grid {
+            display: grid;
+            gap: 0.55rem;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            margin: 0.65rem 0 0.85rem;
+        }
+
+        .advanced-filter-grid input,
+        .advanced-filter-grid select {
+            background: rgba(16, 22, 49, 0.95);
+            color: #e7eeff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.4rem 0.5rem;
+            font: inherit;
+        }
+
+        .clear-filter-btn {
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.05);
+            color: #e7eeff;
+            border-radius: 8px;
+            padding: 0.4rem 0.6rem;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .heatmap-table td.spike-yes {
+            color: #ff8ca0;
+            font-weight: 600;
+        }
+
+        .heat-intensity {
+            border-radius: 8px;
+            padding: 0.2rem 0.45rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            display: inline-block;
+            min-width: 54px;
+            text-align: center;
+        }
+
+        .log-row-main {
+            cursor: pointer;
+        }
+
+        .log-row-main.error-row td:first-child {
+            border-left: 4px solid #ff6384;
+        }
+
+        .log-row-main.warning-row td:first-child {
+            border-left: 4px solid #ffce56;
+        }
+
+        .log-row-main.repeated-row td:first-child {
+            animation: rowPulse 1.8s ease-in-out infinite;
+        }
+
+        .log-row-detail td {
+            background: rgba(13, 19, 44, 0.88);
+            border-top: none;
+        }
+
+        .detail-block {
+            margin: 0.4rem 0;
+        }
+
+        .detail-block pre {
+            margin: 0.25rem 0 0;
+            max-height: 180px;
+            overflow: auto;
+            padding: 0.55rem;
+            border-radius: 8px;
+            background: rgba(8, 12, 30, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        @keyframes rowPulse {
+            0% { box-shadow: inset 0 0 0 rgba(76, 155, 255, 0.0); }
+            50% { box-shadow: inset 0 0 16px rgba(76, 155, 255, 0.25); }
+            100% { box-shadow: inset 0 0 0 rgba(76, 155, 255, 0.0); }
+        }
+
+        .raw-json-panel {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: 0 10px 24px rgba(7, 12, 30, 0.24);
+        }
+
+        .raw-json-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.65rem;
+            flex-wrap: wrap;
+        }
+
+        .raw-json-controls select {
+            background: rgba(16, 22, 49, 0.95);
+            color: #e7eeff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.35rem 0.5rem;
+            font: inherit;
+        }
+
+        .raw-json-panel pre {
+            margin: 0;
+            max-height: 620px;
+            overflow: auto;
+            padding: 0.7rem;
+            border-radius: 8px;
+            background: rgba(8, 12, 30, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .assessment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .assessment-header h4 {
+            margin: 0;
+        }
+
+        .markdown-content h3,
+        .markdown-content h4,
+        .markdown-content h5 {
+            margin: 0.85rem 0 0.5rem;
+            font-size: 1.12rem;
+            letter-spacing: 0.01em;
+        }
+
+        .markdown-content p {
+            margin: 0.4rem 0;
+            line-height: 1.5;
+        }
+
+        .markdown-content ul {
+            margin: 0.4rem 0 0.6rem 1.1rem;
+        }
+
+        .markdown-content ul li {
+            margin-bottom: 0.32rem;
+            padding-left: 0.2rem;
+            line-height: 1.45;
+        }
+
+        .markdown-content ul ul {
+            margin: 0.28rem 0 0.4rem 1.05rem;
+            list-style-type: circle;
+        }
+
+        .markdown-content ul ul ul {
+            list-style-type: square;
+        }
+
+        .md-critical {
+            color: #ff4d4d;
+            font-weight: 700;
+        }
+
+        .md-medium {
+            color: #ffd447;
+            font-weight: 700;
+        }
+
+        .md-low {
+            color: #35d07f;
+            font-weight: 700;
+        }
+
+        .md-label {
+            color: #9fb5ff;
+            font-weight: 600;
+        }
+
+        .section-title-xl {
+            font-size: 1.42rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .assessment-category-subheading {
+            font-size: 1.1rem;
+            opacity: 0.96;
+        }
+
+        .severity-badge.severity-critical {
+            color: #ff4d4d;
+            font-weight: 700;
+        }
+
+        .severity-badge.severity-high {
+            color: #ffd447;
+            font-weight: 700;
+        }
+
+        .severity-badge.severity-low {
+            color: #35d07f;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" title="Main Menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <a href="index.html" class="logo" title="IDS">
+            <img src="assets/icon.jpeg" alt="IDS Logo" class="logo-icon">
+        </a>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="index.html"><i data-lucide="star"></i><span class="nav-text">Features</span></a></li>
+                <li><a href="about.html"><i data-lucide="info"></i><span class="nav-text">About</span></a></li>
+                <li><a href="contact.html"><i data-lucide="mail"></i><span class="nav-text">Contact</span></a></li>
+                <li><a href="cyware.html"><i data-lucide="shield"></i><span class="nav-text">Cyware</span></a></li>
+                <li><a href="threat-intelligence.html"><i data-lucide="radar"></i><span class="nav-text">Threat
+                            Intelligence</span></a></li>
+                <li><a href="network-intelligence.html"><i data-lucide="network"></i><span
+                            class="nav-text">Network Intelligence</span></a></li>
+                <li><a href="log-file-analyzer.html" class="active"><i data-lucide="file-search"></i><span
+                            class="nav-text">Log Analyzer</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <main class="dashboard-content">
+        <div class="page-content">
+            <h1>Log File Analyzer</h1>
+
+            <div class="content-card step-card">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h2><i data-lucide="download"></i> Download Log Analyzer</h2>
+                    <p>Download and run the log analyzer executable to generate JSON output from your log files.</p>
+                    <a href="scripts/log_analyser.exe" download class="download-btn">
+                        <i data-lucide="file-down"></i>
+                        <span>Download Analyzer</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="content-card step-card">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h2><i data-lucide="upload"></i> Upload JSON Log Report</h2>
+                    <p>Upload the generated JSON file. It will be sent to your webhook for analysis.</p>
+
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="jsonFileInput" accept=".json,application/json" hidden>
+                        <i data-lucide="file-json" class="upload-icon"></i>
+                        <p>Drag & drop your JSON file here or <span class="browse-link">browse</span></p>
+                    </div>
+
+                    <div class="file-info hidden" id="fileInfo">
+                        <i data-lucide="file-check"></i>
+                        <span id="fileName">No file selected</span>
+                        <button class="remove-file" id="removeFile" title="Remove file">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+
+                    <button class="submit-btn analyze-btn hidden" id="analyzeBtn">
+                        <i data-lucide="send"></i>
+                        Send For Analysis
+                    </button>
+                </div>
+            </div>
+
+            <div class="content-card results-card hidden" id="resultsCard">
+                <h2><i data-lucide="bar-chart-3"></i> Analyzer Output</h2>
+                <div class="results-content" id="resultsContent"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script/lucide-init.js"></script>
+    <script type="module" src="script/log-file-analyzer.js"></script>
+</body>
+
+</html>
+
+
+
+

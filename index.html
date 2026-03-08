@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDS Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <!-- Hamburger Menu Button (Left) -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" title="Main Menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <!-- Logo (Center/Right of hamburger) -->
+        <a href="index.html" class="logo" title="IDS">
+            <img src="assets/icon.jpeg" alt="IDS Logo" class="logo-icon">
+        </a>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="index.html" class="active"><i data-lucide="star"></i><span
+                            class="nav-text">Features</span></a></li>
+                <li><a href="about.html"><i data-lucide="info"></i><span class="nav-text">About</span></a></li>
+                <li><a href="contact.html"><i data-lucide="mail"></i><span class="nav-text">Contact</span></a></li>
+                <li><a href="cyware.html"><i data-lucide="shield"></i><span class="nav-text">Cyware</span></a></li>
+                <li><a href="threat-intelligence.html"><i data-lucide="radar"></i><span class="nav-text">Threat
+                            Intelligence</span></a></li>
+                <li><a href="network-intelligence.html"><i data-lucide="network"></i><span class="nav-text">Network
+                            Intelligence</span></a></li>
+                <li><a href="log-file-analyzer.html"><i data-lucide="file-search"></i><span class="nav-text">Log
+                            Analyzer</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-content">
+        <div class="page-content">
+            <div class="table-header">
+                <h1>CVE Dashboard</h1>
+                <div class="header-buttons">
+                    <button class="fetch-btn" id="fetchBtn" title="Fetch Latest Data">
+                        <i data-lucide="download"></i>
+                        <span>Fetch Data</span>
+                    </button>
+                    <button class="refresh-btn" id="refreshBtn" title="Refresh Data">
+                        <i data-lucide="refresh-cw"></i>
+                        <span>Refresh</span>
+                    </button>
+                </div>
+            </div>
+
+            <section class="intel-dashboard" id="intelDashboard">
+                <article class="intel-card wide">
+                    <h3>CVEs Received and Processed</h3>
+                    <div class="matrix-table-wrap">
+                        <table class="matrix-table">
+                            <thead>
+                                <tr>
+                                    <th>Time Period</th>
+                                    <th>Total CVEs</th>
+                                    <th>Critical</th>
+                                    <th>High</th>
+                                    <th>Medium</th>
+                                    <th>Low</th>
+                                </tr>
+                            </thead>
+                            <tbody id="periodSummaryBody"></tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article class="intel-card">
+                    <h3>CVSS V3 Score Distribution</h3>
+                    <div class="dist-layout">
+                        <div class="pie-wrap"><canvas id="cvssV3Chart"></canvas></div>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Severity</th>
+                                    <th>Number of Vulns</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cvssV3Legend"></tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article class="intel-card">
+                    <h3>CVE Status Count</h3>
+                    <table class="mini-table">
+                        <tbody id="statusCountBody"></tbody>
+                    </table>
+                </article>
+
+                <article class="intel-card">
+                    <h3>Dataset Contains</h3>
+                    <table class="mini-table">
+                        <tbody id="datasetContainsBody"></tbody>
+                    </table>
+                </article>
+
+                <article class="intel-card">
+                    <h3>EPSS Percentile Distribution</h3>
+                    <div class="dist-layout">
+                        <div class="pie-wrap"><canvas id="epssPercentileChart"></canvas></div>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Percentile Range</th>
+                                    <th>Number of Vulns</th>
+                                </tr>
+                            </thead>
+                            <tbody id="epssPercentileLegend"></tbody>
+                        </table>
+                    </div>
+                </article>
+            </section>
+
+            <div class="table-container" id="tableContainer">
+                <!-- Initial empty state -->
+                <div class="empty-state" id="emptyState">
+                    <i data-lucide="database"></i>
+                    <p>No data available</p>
+                    <p class="hint">Click "Fetch Data" to load the latest CVE information</p>
+                </div>
+                <div class="loading-state hidden" id="loadingState">
+                    <i data-lucide="loader-2" class="spin"></i>
+                    <p>Loading data...</p>
+                </div>
+                <div class="error-state hidden" id="errorState">
+                    <i data-lucide="alert-circle"></i>
+                    <p id="errorMessage">Failed to load data</p>
+                </div>
+                <table class="data-table hidden" id="dataTable">
+                    <thead id="tableHead"></thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="script/lucide-init.js"></script>
+    <script type="module" src="script/index.js"></script>
+</body>
+
+</html>
+
+
+
